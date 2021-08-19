@@ -1,0 +1,122 @@
+.counter {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  height: 40px;
+  border-radius: 2px;
+  width: 115px;
+}
+
+.counter__value {
+  width: 55px;
+  border: unset;
+  text-align: center;
+  margin: auto;
+}
+
+.counter__value:focus {
+  outline: unset;
+}
+
+.counter__button {
+  width: 30px;
+  border: unset;
+  background-color: inherit;
+  transition: background-color 0.3s ease;
+  font-size: 22px;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0;
+}
+
+.counter__button:hover {
+  cursor: pointer;
+  background-color: #5f58ac;
+  color: white;
+}
+
+.item__delete {
+  border: unset;
+  background-color: inherit;
+  height: 40px;
+  width: 30px;
+  background-image: url(../../images/icon-delete.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgb(95, 88, 172);
+  transition: background-color 0.3s ease;
+  border-radius: 2px;
+  padding: 0;
+}
+
+.item__delete:hover {
+  cursor: pointer;
+  background-color: rgba(95, 88, 172, 0.7);
+}
+
+.column {
+  padding: 0;
+}
+
+.column:nth-of-type(1) {
+  overflow-wrap: anywhere;
+  width: 40%;
+  text-align: start;
+  padding: 15px 0;
+}
+
+.column:nth-of-type(2) {
+  width: 20%;
+  text-align: start;
+}
+
+.column:nth-of-type(3) {
+  width: 25%;
+  text-align: start;
+}
+
+.column:nth-of-type(4) {
+  width: 15%;
+  text-align: center;
+}
+
+.row {
+  height: 70px;
+}
+
+@media screen and (max-width: 767px) {
+  .column:nth-of-type(1) {
+    width: 30%;
+  }
+
+  .column:nth-of-type(2) {
+    width: 20%;
+  }
+
+  .column:nth-of-type(3) {
+    width: 30%;
+  }
+
+  .column:nth-of-type(4) {
+    width: 10%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .counter {
+    height: 36px;
+    width: 95px;
+  }
+
+  .counter__value {
+    width: 40px;
+  }
+
+  .counter__button {
+    width: 25px;
+    font-size: 16px;
+  }
+
+  .item__delete {
+    height: 38px;
+    width: 30px;
+  }
+}

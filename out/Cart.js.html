@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Cart.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Cart.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import './Cart.css';
+import Item from '../Item/Item';
+import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../redux/actions';
+
+/**
+ * Компонент отвечающий за отрисовку корзины.
+ * @namespace Cart
+ */
+function Cart(props) {
+  const [products, setProducts] = React.useState();
+  const [prices, setPrices] = React.useState();
+  const [formName, setFormName] = React.useState('');
+  const [formPrices, setFormPrices] = React.useState('');
+  const [formQuantity, setFormQuantity] = React.useState('');
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    let containPrices = 0;
+    let containProducts = 0;
+    props.data.storage.forEach((element) => {
+      containPrices = containPrices + element.price * element.quantity;
+      containProducts = containProducts + Number(element.quantity);
+    });
+    setPrices(containPrices);
+    setProducts(containProducts);
+  }, [props.data.storage]);
+
+  /**
+   * Обрабатывает ввод пользователя в input-name.
+   * @memberof Cart
+   * @param {*} event - общие свойства и методы для всех событий.
+   */
+  function handleNameChange(event) {
+    setFormName(event.target.value);
+  }
+
+  /**
+   * Обрабатывает ввод пользователя в input-price.
+   *  @memberof Cart
+   * @param {*} event - общие свойства и методы для всех событий.
+   */
+  function handlePriceChange(event) {
+    setFormPrices(event.target.value);
+  }
+
+  /**
+   * Обрабатывает ввод пользователя в input-quantity.
+   * @memberof Cart
+   * @param {*} event - общие свойства и методы для всех событий.
+   */
+  function handleQuantityChange(event) {
+    setFormQuantity(event.target.value);
+  }
+
+  /**
+   * Сабмит формы, добавляет товар в таблицу и в массив данных Redux.
+   *  @memberof Cart
+   * @param {*} event - общие свойства и методы для всех событий.
+   */
+  function formAdd(event) {
+    event.preventDefault();
+    dispatch(addProduct(formName, formPrices, formQuantity));
+    setFormName('');
+    setFormPrices('');
+    setFormQuantity('');
+  }
+
+  /**
+   * Сабмит формы, при наличии бэкенда отправка массива данных с корзины.
+   * @memberof Cart
+   * @param {*} event - общие свойства и методы для всех событий.
+   */
+  function formCheckout(event) {
+    event.preventDefault();
+    // api
+    //   .nameMethod(props.data.storage)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }
+
+  return (
+    &lt;section className='cart'>
+      &lt;h1 className='cart__title'>Корзина&lt;/h1>
+      &lt;hr className='cart__line' />
+      &lt;table className='table'>
+        &lt;tbody>
+          &lt;tr className='table__row'>
+            &lt;th className='table__column'>Название&lt;/th>
+            &lt;th className='table__column'>Цена&lt;/th>
+            &lt;th className='table__column'>Кол-во&lt;/th>
+            &lt;th className='table__column'>&lt;/th>
+          &lt;/tr>
+        &lt;/tbody>
+        &lt;tbody>
+          {props.data.storage.map((item) => {
+            return (
+              &lt;Item
+                name={item.name}
+                price={item.price}
+                key={item.id}
+                id={item.id}
+                quantity={item.quantity}
+              />
+            );
+          })}
+        &lt;/tbody>
+      &lt;/table>
+      &lt;form className='form-checkout' onSubmit={formCheckout}>
+        &lt;p className='cart__total'>Всего товаров: {products} шт.&lt;/p>
+        &lt;p className='cart__total'>Общая сумма: {prices} &amp;#8381;&lt;/p>
+        &lt;button className='form-checkout__button' type='submit'>
+          Оформить заказ
+        &lt;/button>
+      &lt;/form>
+      &lt;form className='form-add' onSubmit={formAdd}>
+        &lt;input
+          className='form-add__input'
+          placeholder='Название'
+          type='text'
+          name='name'
+          value={formName}
+          onChange={handleNameChange}
+          required
+        >&lt;/input>
+        &lt;input
+          className='form-add__input'
+          placeholder='Цена'
+          type='number'
+          name='price'
+          value={formPrices}
+          onChange={handlePriceChange}
+          required
+        >&lt;/input>
+        &lt;input
+          className='form-add__input'
+          placeholder='Количество'
+          type='number'
+          name='quantity'
+          maxLength='4'
+          value={formQuantity}
+          onChange={handleQuantityChange}
+          required
+        >&lt;/input>
+        &lt;button className='form-add__button' type='submit'>
+          Добавить товар
+        &lt;/button>
+      &lt;/form>
+    &lt;/section>
+  );
+}
+
+function mapStateToProps(state) {
+  return { data: state };
+}
+
+export default connect(mapStateToProps)(Cart);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="Cart.html">Cart</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Aug 19 2021 13:33:35 GMT+0400 (GMT+04:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
