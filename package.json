@@ -38,6 +38,7 @@
     ]
   },
   "devDependencies": {
-    "jsdoc": "^3.6.7"
+    "jsdoc": "^3.6.7",
+    "redux-mock-store": "^1.5.4"
   }
 }
